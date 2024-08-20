@@ -38,6 +38,7 @@ Hey, Netology
 ```bash 
 sudo docker run --name=MiroshnichenkoAN-custom-nginx-t2 -d -p 127.0.0.1:8080:80   aleksandm/custom-nginx:1.0.0
 ```
+![image](virt-03-docker-intro/2_1.jpg)
 2. Не удаляя, переименуйте контейнер в "custom-nginx-t2"   
 ```bash
 sudo docker rename MiroshnichenkoAN-custom-nginx-t2 custom-nginx-t2
