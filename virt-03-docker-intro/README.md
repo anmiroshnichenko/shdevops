@@ -42,12 +42,14 @@ sudo docker run --name=MiroshnichenkoAN-custom-nginx-t2 -d -p 127.0.0.1:8080:80 
 ```bash
 sudo docker rename MiroshnichenkoAN-custom-nginx-t2 custom-nginx-t2
 ``` 
-3. Выполните команду ```bash 
+3. Выполните команду  
+```bash
 date +"%d-%m-%Y %T.%N %Z" ; sleep 0.150 ; sudo docker ps ; ss -tlpn | grep 127.0.0.1:8080  ; sudo docker logs custom-nginx-t2 -n1 ; sudo docker exec -it custom-nginx-t2 base64 /usr/share/nginx/html/index.html
 ```
 5. Убедитесь с помощью curl или веб браузера, что индекс-страница доступна.
 ```bash
-curl 127.0.0.1:8080 -v``` 
+curl 127.0.0.1:8080 -v
+``` 
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
 #### Ответ:
 
