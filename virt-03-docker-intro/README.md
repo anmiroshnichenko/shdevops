@@ -67,16 +67,24 @@ curl 127.0.0.1:8080 -v
 sudo docker  attach custom-nginx-t2
 ```
 2. Подключитесь к контейнеру и нажмите комбинацию Ctrl-C.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_2.jpg)
 3. Выполните ```docker ps -a``` и объясните своими словами почему контейнер остановился.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_3.jpg)
 4. Перезапустите контейнер
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_4.jpg)
 5. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
-```sudo docker exec -it custom-nginx-t2 bash
+```
+sudo docker exec -it custom-nginx-t2 bash
 ``` 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_5.jpg)
 6. Установите любимый текстовый редактор(vim, nano итд) с помощью apt-get.
 7. Отредактируйте файл "/etc/nginx/conf.d/default.conf", заменив порт "listen 80" на "listen 81".
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_7.jpg)
 8. Запомните(!) и выполните команду ```nginx -s reload```, а затем внутри контейнера ```curl http://127.0.0.1:80 ; curl http://127.0.0.1:81```.
-0. Выйдите из контейнера, набрав в консоли  ```exit``` или Ctrl-D.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_8.jpg)
+9. Выйдите из контейнера, набрав в консоли  ```exit``` или Ctrl-D.
 10. Проверьте вывод команд: ```ss -tlpn | grep 127.0.0.1:8080``` , ```docker port custom-nginx-t2```, ```curl http://127.0.0.1:8080```. Кратко объясните суть возникшей проблемы.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_10.jpg)
 11. * Это дополнительное, необязательное задание. Попробуйте самостоятельно исправить конфигурацию контейнера, используя доступные источники в интернете. Не изменяйте конфигурацию nginx и не удаляйте контейнер. Останавливать контейнер можно. [пример источника](https://www.baeldung.com/linux/assign-port-docker-container)
 ```bash
 sudo docker ps
@@ -93,6 +101,10 @@ sudo docker start custom-nginx-t2
 sudo docker ps
 curl 127.0.0.1:8080
 ```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_11_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_11_2.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_11_3.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_11_4.jpg)
 
 12. Удалите запущенный контейнер "custom-nginx-t2", не останавливая его.(воспользуйтесь --help или google)
 
