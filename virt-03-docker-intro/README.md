@@ -108,6 +108,8 @@ curl 127.0.0.1:8080
 
 12. Удалите запущенный контейнер "custom-nginx-t2", не останавливая его.(воспользуйтесь --help или google)
 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_12.jpg)
+
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
 
 ## Задача 4
