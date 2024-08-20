@@ -70,13 +70,30 @@ sudo docker  attach custom-nginx-t2
 3. Выполните ```docker ps -a``` и объясните своими словами почему контейнер остановился.
 4. Перезапустите контейнер
 5. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
-```sudo docker exec -it custom-nginx-t2 bash``` 
+```sudo docker exec -it custom-nginx-t2 bash
+``` 
 6. Установите любимый текстовый редактор(vim, nano итд) с помощью apt-get.
 7. Отредактируйте файл "/etc/nginx/conf.d/default.conf", заменив порт "listen 80" на "listen 81".
 8. Запомните(!) и выполните команду ```nginx -s reload```, а затем внутри контейнера ```curl http://127.0.0.1:80 ; curl http://127.0.0.1:81```.
-9. Выйдите из контейнера, набрав в консоли  ```exit``` или Ctrl-D.
+0. Выйдите из контейнера, набрав в консоли  ```exit``` или Ctrl-D.
 10. Проверьте вывод команд: ```ss -tlpn | grep 127.0.0.1:8080``` , ```docker port custom-nginx-t2```, ```curl http://127.0.0.1:8080```. Кратко объясните суть возникшей проблемы.
 11. * Это дополнительное, необязательное задание. Попробуйте самостоятельно исправить конфигурацию контейнера, используя доступные источники в интернете. Не изменяйте конфигурацию nginx и не удаляйте контейнер. Останавливать контейнер можно. [пример источника](https://www.baeldung.com/linux/assign-port-docker-container)
+```bash
+sudo docker ps
+sudo docker inspect --format="{{.Id}}"  custom-nginx-t2
+sudo docker stop custom-nginx-t2
+sudo systemctl stop docker
+sudo systemctl status  docker
+sudo ls /var/lib/docker/containers/e6f543048563860fab58160a752222025832eb72c80adcfb95120299e73b5580
+sudo nano /var/lib/docker/containers/e6f543048563860fab58160a752222025832eb72c80adcfb95120299e73b5580/hostconfig.json
+sudo nano /var/lib/docker/containers/e6f543048563860fab58160a752222025832eb72c80adcfb95120299e73b5580/config.v2.json
+sudo systemctl start docker
+sudo docker ps -a
+sudo docker start custom-nginx-t2
+sudo docker ps
+curl 127.0.0.1:8080
+```
+
 12. Удалите запущенный контейнер "custom-nginx-t2", не останавливая его.(воспользуйтесь --help или google)
 
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
