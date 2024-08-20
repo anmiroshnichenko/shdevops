@@ -35,6 +35,8 @@ Hey, Netology
 - имя контейнера "ФИО-custom-nginx-t2"
 - контейнер работает в фоне
 - контейнер опубликован на порту хост системы 127.0.0.1:8080
+```bash
+sudo docker run --name=MiroshnichenkoAN-custom-nginx-t2 -d -p 127.0.0.1:8080:80   aleksandm/custom-nginx:1.0.0```
 2. Не удаляя, переименуйте контейнер в "custom-nginx-t2"
 3. Выполните команду ```date +"%d-%m-%Y %T.%N %Z" ; sleep 0.150 ; docker ps ; ss -tlpn | grep 127.0.0.1:8080  ; docker logs custom-nginx-t2 -n1 ; docker exec -it custom-nginx-t2 base64 /usr/share/nginx/html/index.html```
 4. Убедитесь с помощью curl или веб браузера, что индекс-страница доступна.
