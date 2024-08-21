@@ -76,9 +76,9 @@ sudo docker  attach custom-nginx-t2
 5. Перезапустите контейнер
  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_4.jpg)
 6. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
-```
-sudo docker exec -it custom-nginx-t2 bash
-``` 
+ ```
+ sudo docker exec -it custom-nginx-t2 bash
+ ``` 
  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_5.jpg)
 6. Установите любимый текстовый редактор(vim, nano итд) с помощью apt-get.
 7. Отредактируйте файл "/etc/nginx/conf.d/default.conf", заменив порт "listen 80" на "listen 81".
