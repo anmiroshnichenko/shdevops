@@ -163,6 +163,12 @@ services:
 ```
 
 И выполните команду "docker compose up -d". Какой из файлов был запущен и почему? (подсказка: https://docs.docker.com/compose/compose-application-model/#the-compose-file )
+```
+mkdir -p /tmp/netology/docker/task5
+cd /tmp/netology/docker/task5
+nano compose.yaml
+nano docker-compose.yaml
+```
 #### Ответ: Docker Compose поддерживает файлы compose.yaml(предпочтительно) и docker-compose.yaml, но  если в рабочей директории оба файла, Compose предпочитает канонический compose.yaml.
 2. Отредактируйте файл compose.yaml так, чтобы были запущенны оба файла. (подсказка: https://docs.docker.com/compose/compose-file/14-include/)
 ```
@@ -183,6 +189,7 @@ include:
 ```
 sudo docker  images
 sudo  docker tag aleksandm/custom-nginx:1.0.0  127.0.0.1:5000/custom-nginx
+sudo docker  push 127.0.0.1:5000/custom-nginx
 ```
 4. Откройте страницу "https://127.0.0.1:9000" и произведите начальную настройку portainer.(логин и пароль адмнистратора)
 5. Откройте страницу "http://127.0.0.1:9000/#!/home", выберите ваше local  окружение. Перейдите на вкладку "stacks" и в "web editor" задеплойте следующий компоуз:
@@ -199,7 +206,12 @@ services:
 6. Перейдите на страницу "http://127.0.0.1:9000/#!/2/docker/containers", выберите контейнер с nginx и нажмите на кнопку "inspect". В представлении <> Tree разверните поле "Config" и сделайте скриншот от поля "AppArmorProfile" до "Driver".
 
 7. Удалите любой из манифестов компоуза(например compose.yaml).  Выполните команду "docker compose up -d". Прочитайте warning, объясните суть предупреждения и выполните предложенное действие. Погасите compose-проект ОДНОЙ(обязательно!!) командой.
-
+```
+cd /tmp/netology/docker/task5
+rm compose.yaml
+sudo docker compose up -d
+sudo docker compose down
+```
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод, файл compose.yaml , скриншот portainer c задеплоенным компоузом.
 
 ---
