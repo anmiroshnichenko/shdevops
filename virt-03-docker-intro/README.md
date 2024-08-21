@@ -63,9 +63,7 @@ curl 127.0.0.1:8080 -v
 
 ## Задача 3
 1. Воспользуйтесь docker help или google, чтобы узнать как подключиться к стандартному потоку ввода/вывода/ошибок контейнера "custom-nginx-t2".
-```
-sudo docker  attach custom-nginx-t2
-```
+```sudo docker  attach custom-nginx-t2```
 2. Подключитесь к контейнеру и нажмите комбинацию Ctrl-C.
  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_2.jpg)
 3. Выполните ```docker ps -a``` и объясните своими словами почему контейнер остановился.
