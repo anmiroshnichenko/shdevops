@@ -168,6 +168,7 @@ mkdir -p /tmp/netology/docker/task5
 cd /tmp/netology/docker/task5
 nano compose.yaml
 nano docker-compose.yaml
+sudo docker compose up -d
 ```
 #### Ответ: Docker Compose поддерживает файлы compose.yaml(предпочтительно) и docker-compose.yaml, но  если в рабочей директории оба файла, Compose предпочитает канонический compose.yaml.
 2. Отредактируйте файл compose.yaml так, чтобы были запущенны оба файла. (подсказка: https://docs.docker.com/compose/compose-file/14-include/)
