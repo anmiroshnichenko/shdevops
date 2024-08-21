@@ -68,8 +68,7 @@ curl 127.0.0.1:8080 -v
  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_2.jpg)
 3. Выполните ```docker ps -a``` и объясните своими словами почему контейнер остановился.
  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_3.jpg)
- Подключившись к контенеру командой docker attach и набрав  комбинацию клавыиш CTRL-c, я отправил
- сигнал SIGINT(прерывание/завершение) в контейнер. 
+ #### Ответ: Подключившись к контенеру командой docker attach и набрав  комбинацию клавыиш CTRL-c, я отправил  сигнал SIGINT(прерывание/завершение) в контейнер. 
 4. Перезапустите контейнер
  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_4.jpg)
 5. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
@@ -163,7 +162,7 @@ services:
 ```
 
 И выполните команду "docker compose up -d". Какой из файлов был запущен и почему? (подсказка: https://docs.docker.com/compose/compose-application-model/#the-compose-file )
-
+#### Ответ: Docker Compose поддерживает файлы compose.yaml(предпочтительно) и docker-compose.yaml, но  если в рабочей директории оба файла, Compose предпочитает канонический compose.yaml.
 2. Отредактируйте файл compose.yaml так, чтобы были запущенны оба файла. (подсказка: https://docs.docker.com/compose/compose-file/14-include/)
 
 3. Выполните в консоли вашей хостовой ОС необходимые команды чтобы залить образ custom-nginx как custom-nginx:latest в запущенное вами, локальное registry. Дополнительная документация: https://distribution.github.io/distribution/about/deploying/
