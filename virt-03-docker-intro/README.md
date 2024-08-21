@@ -121,11 +121,17 @@ curl 127.0.0.1:8080 -v
 - Запустите второй контейнер из образа ***debian*** в фоновом режиме, подключив текущий рабочий каталог ```$(pwd)``` в ```/data``` контейнера.
   ```
   sudo docker run -v  $(pwd):/data -id  --name debian10 debian:10
-  ```   
+  ```
+  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/4_1.jpg
+  
 - Подключитесь к первому контейнеру с помощью ```docker exec``` и создайте текстовый файл любого содержания в ```/data```.
 - Добавьте ещё один файл в текущий каталог ```$(pwd)``` на хостовой машине.
+
+  ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/4_2.jpg
+  
 - Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
 
+  (https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/4_3.jpg
 
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
 
