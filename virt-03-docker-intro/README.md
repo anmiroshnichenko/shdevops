@@ -212,15 +212,22 @@ services:
     ports:
       - "9090:80"
 ```
-6. Перейдите на страницу "http://127.0.0.1:9000/#!/2/docker/containers", выберите контейнер с nginx и нажмите на кнопку "inspect". В представлении <> Tree разверните поле "Config" и сделайте скриншот от поля "AppArmorProfile" до "Driver".
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/5_5.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/5_5_1.jpg)
 
+6. Перейдите на страницу "http://127.0.0.1:9000/#!/2/docker/containers", выберите контейнер с nginx и нажмите на кнопку "inspect". В представлении <> Tree разверните поле "Config" и сделайте скриншот от поля "AppArmorProfile" до "Driver".
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/5_6.jpg)
 7. Удалите любой из манифестов компоуза(например compose.yaml).  Выполните команду "docker compose up -d". Прочитайте warning, объясните суть предупреждения и выполните предложенное действие. Погасите compose-проект ОДНОЙ(обязательно!!) командой.
 ```
 cd /tmp/netology/docker/task5
 rm compose.yaml
 sudo docker compose up -d
+sudo docker compose up -d --remove-orphans
 sudo docker compose down
 ```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/5_7.jpg)
+
+#### Ответ: Суть предупреждение заключается в том, что найдены  два контейнера task5-nginx-1 и task5-portainer-1, которе не указаны ка сервис в фале compose.yaml.  Предлагает  удалить используя флаг --remove-orphans. Еще  одно прдупрждение о том, что  атрибут version  теперь можно не указывать. 
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод, файл compose.yaml , скриншот portainer c задеплоенным компоузом.
 
 ---
