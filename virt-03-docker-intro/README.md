@@ -70,9 +70,12 @@ sudo docker  attach custom-nginx-t2
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_2.jpg)
 3. Выполните ```docker ps -a``` и объясните своими словами почему контейнер остановился.
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_3.jpg)
-4. Перезапустите контейнер
+Подключившись к контенеру командой docker attach и набрав  комбинацию клавыиш CTRL-c, я отправил
+сигнал SIGINT(прерывание/завершение) в контейнер. 
+
+5. Перезапустите контейнер
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/virt-03-docker-intro/3_4.jpg)
-5. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
+6. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
 ```
 sudo docker exec -it custom-nginx-t2 bash
 ``` 
