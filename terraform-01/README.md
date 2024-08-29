@@ -15,6 +15,17 @@
 
 ------
 
+```
+wget https://hashicorp-releases.yandexcloud.net/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip
+unzip  terraform_1.9.5_linux_amd64.zip
+file terraform
+chmod 766 terraform
+sudo cp terraform /usr/local/bin/
+sudo chown miroshnichenko_an /usr/local/bin/terraform
+terraform -v
+``` 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/0.jpg)
+
 ### Инструменты и дополнительные материалы, которые пригодятся для выполнения задания
 
 1. Репозиторий с ссылкой на зеркало для установки и настройки Terraform: [ссылка](https://github.com/netology-code/devops-materials).
