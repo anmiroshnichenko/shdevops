@@ -38,14 +38,71 @@ terraform -v
 
 1. Перейдите в каталог [**src**](https://github.com/netology-code/ter-homeworks/tree/main/01/src). Скачайте все необходимые зависимости, использованные в проекте. 
 2. Изучите файл **.gitignore**. В каком terraform-файле, согласно этому .gitignore, допустимо сохранить личную, секретную информацию?(логины,пароли,ключи,токены итд)
+```
+# Local .terraform directories and files
+**/.terraform/*
+.terraform*
+!.terraformrc
+# .tfstate files
+*.tfstate
+*.tfstate.*
+# own secret vars store.
+personal.auto.tfvars
+```
+#### Ответ: terraform.tfstate
+
 3. Выполните код проекта. Найдите  в state-файле секретное содержимое созданного ресурса **random_password**, пришлите в качестве ответа конкретный ключ и его значение.
+### "result": "HcWD6G8kJh1Fxl6h"
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_3.jpg)
+
 4. Раскомментируйте блок кода, примерно расположенный на строчках 29–42 файла **main.tf**.
 Выполните команду ```terraform validate```. Объясните, в чём заключаются намеренно допущенные ошибки. Исправьте их.
+#### Отвее:  Все блоки resource должны иметь 2 labels (type, name). Имя должно начинаться с буквы или символа подчеркивания и может содержать только буквы, цифры, символы подчеркивания и тире. В строке "name  = "example_${random_password.random_string_FAKE.resulT}" убрал "_FAKE" и исправил "result"
+
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_4.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_4_0.jpg)
+
 5. Выполните код. В качестве ответа приложите: исправленный фрагмент кода и вывод команды ```docker ps```.
+```
+resource "docker_image" "nginx-stable" {
+  name         = "nginx:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx-stable.image_id
+  name  = "example_${random_password.random_string.result}"
+
+  ports {
+    internal = 80
+    external = 9090
+  }
+}
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_5.jpg)
+
 6. Замените имя docker-контейнера в блоке кода на ```hello_world```. Не перепутайте имя контейнера и имя образа. Мы всё ещё продолжаем использовать name = "nginx:latest". Выполните команду ```terraform apply -auto-approve```.
 Объясните своими словами, в чём может быть опасность применения ключа  ```-auto-approve```. Догадайтесь или нагуглите зачем может пригодиться данный ключ? В качестве ответа дополнительно приложите вывод команды ```docker ps```.
-8. Уничтожьте созданные ресурсы с помощью **terraform**. Убедитесь, что все ресурсы удалены. Приложите содержимое файла **terraform.tfstate**. 
-9. Объясните, почему при этом не был удалён docker-образ **nginx:latest**. Ответ **ОБЯЗАТЕЛЬНО НАЙДИТЕ В ПРЕДОСТАВЛЕННОМ КОДЕ**, а затем **ОБЯЗАТЕЛЬНО ПОДКРЕПИТЕ** строчкой из документации [**terraform провайдера docker**](https://docs.comcloud.xyz/providers/kreuzwerker/docker/latest/docs).  (ищите в классификаторе resource docker_image )
+```
+resource "docker_container" "nginx" {
+  image = docker_image.nginx-stable.image_id
+#  name  = "example_${random_password.random_string.result}"
+  name  = "hello_world"
+  ports {
+    internal = 80
+    external = 9090
+  }
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_6.jpg)
+
+7. Уничтожьте созданные ресурсы с помощью **terraform**. Убедитесь, что все ресурсы удалены. Приложите содержимое файла **terraform.tfstate**. 
+```
+terraform destroy
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_7.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_7_1.jpg)
+
+8. Объясните, почему при этом не был удалён docker-образ **nginx:latest**. Ответ **ОБЯЗАТЕЛЬНО НАЙДИТЕ В ПРЕДОСТАВЛЕННОМ КОДЕ**, а затем **ОБЯЗАТЕЛЬНО ПОДКРЕПИТЕ** строчкой из документации [**terraform провайдера docker**](https://docs.comcloud.xyz/providers/kreuzwerker/docker/latest/docs).  (ищите в классификаторе resource docker_image )
 
 
 ------
