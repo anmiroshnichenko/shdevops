@@ -53,7 +53,7 @@ personal.auto.tfvars
 3. Выполните код проекта. Найдите  в state-файле секретное содержимое созданного ресурса **random_password**, пришлите в качестве ответа конкретный ключ и его значение.
 #### Ответ:  "result": "A4OLPruh2OBU0qQ1"
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_3.jpg)
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_3_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_3_1.jpg)
 
 4. Раскомментируйте блок кода, примерно расположенный на строчках 29–42 файла **main.tf**.
 Выполните команду ```terraform validate```. Объясните, в чём заключаются намеренно допущенные ошибки. Исправьте их.
