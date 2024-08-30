@@ -49,7 +49,7 @@ terraform -v
 # own secret vars store.
 personal.auto.tfvars
 ```
-#### Ответ: в фале personal.auto.tfvars
+#### Ответ: Допустимо сохранить личную, секретную информацию в фале personal.auto.tfvars
 
 3. Выполните код проекта. Найдите  в state-файле секретное содержимое созданного ресурса **random_password**, пришлите в качестве ответа конкретный ключ и его значение.
 #### Ответ:  "result": "HcWD6G8kJh1Fxl6h"
@@ -83,7 +83,7 @@ resource "docker_container" "nginx" {
 
 6. Замените имя docker-контейнера в блоке кода на ```hello_world```. Не перепутайте имя контейнера и имя образа. Мы всё ещё продолжаем использовать name = "nginx:latest". Выполните команду ```terraform apply -auto-approve```.
 Объясните своими словами, в чём может быть опасность применения ключа  ```-auto-approve```. Догадайтесь или нагуглите зачем может пригодиться данный ключ? В качестве ответа дополнительно приложите вывод команды ```docker ps```.
-#### Ответ: 
+#### Ответ: Опасность заключается в нежелательном приминении изменений к инфораструктуре без предварительного изучения плана, т.к  ключ  -auto-approve пропускает интерактивное утверждение. Данный ключ может буть полезен с скриптах, CI/CD пайплайна.  
 ```
 resource "docker_container" "nginx" {
   image = docker_image.nginx-stable.image_id
@@ -103,7 +103,14 @@ terraform destroy
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_7.jpg)
 
 8. Объясните, почему при этом не был удалён docker-образ **nginx:latest**. Ответ **ОБЯЗАТЕЛЬНО НАЙДИТЕ В ПРЕДОСТАВЛЕННОМ КОДЕ**, а затем **ОБЯЗАТЕЛЬНО ПОДКРЕПИТЕ** строчкой из документации [**terraform провайдера docker**](https://docs.comcloud.xyz/providers/kreuzwerker/docker/latest/docs).  (ищите в классификаторе resource docker_image )
+#### Ответ: docker-образ **nginx:latest**  не был удален, потому что в схеме ресурса  указан параметр **keep_locally = true** .  Если удалить этот параметр или установить значение **false**  при дестрои  образ  будет удален. Строка из докементации: ""keep_locally (Boolean) If true, then the Docker image won't be deleted on destroy operation. If this is false, it will delete the image from the docker local storage on destroy operation.""
 
+```
+resource "docker_image" "nginx-stable" {
+  name         = "nginx:latest"
+  keep_locally = true
+}
+```
 
 ------
 
