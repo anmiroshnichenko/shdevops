@@ -49,15 +49,15 @@ terraform -v
 # own secret vars store.
 personal.auto.tfvars
 ```
-#### Ответ: terraform.tfstate
+#### Ответ: в фале personal.auto.tfvars
 
 3. Выполните код проекта. Найдите  в state-файле секретное содержимое созданного ресурса **random_password**, пришлите в качестве ответа конкретный ключ и его значение.
-### "result": "HcWD6G8kJh1Fxl6h"
+#### Ответ:  "result": "HcWD6G8kJh1Fxl6h"
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_3.jpg)
 
 4. Раскомментируйте блок кода, примерно расположенный на строчках 29–42 файла **main.tf**.
 Выполните команду ```terraform validate```. Объясните, в чём заключаются намеренно допущенные ошибки. Исправьте их.
-#### Отвее:  Все блоки resource должны иметь 2 labels (type, name). Имя должно начинаться с буквы или символа подчеркивания и может содержать только буквы, цифры, символы подчеркивания и тире. В строке "name  = "example_${random_password.random_string_FAKE.resulT}" убрал "_FAKE" и исправил "result"
+#### Ответ:  Все блоки resource должны иметь 2 labels (type, name). Имя должно начинаться с буквы или символа подчеркивания и может содержать только буквы, цифры, символы подчеркивания и тире. В строке "name  = "example_${random_password.random_string_FAKE.resulT}" убрал "_FAKE" и исправил "result"
 
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_4.jpg)
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/1_4_0.jpg)
@@ -83,6 +83,7 @@ resource "docker_container" "nginx" {
 
 6. Замените имя docker-контейнера в блоке кода на ```hello_world```. Не перепутайте имя контейнера и имя образа. Мы всё ещё продолжаем использовать name = "nginx:latest". Выполните команду ```terraform apply -auto-approve```.
 Объясните своими словами, в чём может быть опасность применения ключа  ```-auto-approve```. Догадайтесь или нагуглите зачем может пригодиться данный ключ? В качестве ответа дополнительно приложите вывод команды ```docker ps```.
+#### Ответ: 
 ```
 resource "docker_container" "nginx" {
   image = docker_image.nginx-stable.image_id
