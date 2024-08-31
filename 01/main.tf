@@ -9,8 +9,8 @@ terraform {
  Требуемая версия terraform */
 }
 provider "docker" {
-  # host     = "ssh://miroshnichenko@84.201.128.234:22"
-  # ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null"]
+  host     = "ssh://miroshnichenko@89.169.141.231:22"
+  ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null"]
 }
 
 #однострочный комментарий
@@ -71,7 +71,8 @@ resource "docker_container" "mysql" {
      "MYSQL_ROOT_PASSWORD=${random_password.mysql_root_password.result}",
      "MYSQL_PASSWORD=${random_password.mysql_password.result}",
      "MYSQL_USER=${var.mysql_user}",
-     "MYSQL_DATABASE=${var.mysql_database}"
+     "MYSQL_DATABASE=${var.mysql_database}",
+     "MYSQL_ROOT_HOST=%"
   ]
   volumes {
     container_path = "/var/lib/mysql"

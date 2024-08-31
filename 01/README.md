@@ -119,7 +119,10 @@ resource "docker_image" "nginx-stable" {
 ### Задание 2*
 
 1. Создайте в облаке ВМ. Сделайте это через web-консоль, чтобы не слить по незнанию токен от облака в github(это тема следующей лекции). Если хотите - попробуйте сделать это через terraform, прочитав документацию yandex cloud. Используйте файл ```personal.auto.tfvars``` и гитигнор или иной, безопасный способ передачи токена!
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/2_1.jpg)
+
 2. Подключитесь к ВМ по ssh и установите стек docker.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/2_2.jpg)
 
 3. Найдите в документации docker provider способ настроить подключение terraform на вашей рабочей станции к remote docker context вашей ВМ через ssh.
 ```
@@ -161,7 +164,7 @@ resource "docker_container" "mysql" {
      "MYSQL_PASSWORD=${random_password.mysql_password.result}",
      "MYSQL_USER=${var.mysql_user}",
      "MYSQL_DATABASE=${var.mysql_database}",
-     "MYSQL_ROOT_HOST=%"git 
+     "MYSQL_ROOT_HOST=%" 
   ]
   volumes {
     container_path = "/var/lib/mysql"
@@ -170,22 +173,28 @@ resource "docker_container" "mysql" {
   ports {
     external = 3306
     internal = 3306
-    ip = "127.0.0.1"    
+    ip = 127.0.0.1    
   }
 }
 ```
-6. Зайдите на вашу ВМ , подключитесь к контейнеру и проверьте наличие секретных env-переменных с помощью команды ```env```. Запишите ваш финальный код в репозиторий.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/2_4.jpg)
+
+5. Зайдите на вашу ВМ , подключитесь к контейнеру и проверьте наличие секретных env-переменных с помощью команды ```env```. Запишите ваш финальный код в репозиторий.
 ```
 docker exec -it mysql bash
 env
-mysql -uroot -pQaAlaR7fZ04bN0Yc
-docker exec -it mysql mysql -uroot -pQaAlaR7fZ04bN0Yc
+mysql -uroot -p1UomClPwDHo6PdPK
+docker exec -it mysql mysql -uroot -p1UomClPwDHo6PdPK
 ```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/2_5.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/2_5_1.jpg)
 
 ### Задание 3*
 1. Установите [opentofu](https://opentofu.org/)(fork terraform с лицензией Mozilla Public License, version 2.0) любой версии
 2. Попробуйте выполнить тот же код с помощью ```tofu apply```, а не terraform apply.
 ------
+#### Ответ: Доступ [ссылка](https://habr.com/ru/companies/flant/news/839442/) к registry.opentofu.org закрыт с российских IP-адресов.  VPN  не помог.  Возможно каким-то спообом выполнить это задание?  
+
 ```
 #Installing tooling
 sudo apt-get update
