@@ -24,7 +24,7 @@ sudo cp terraform /usr/local/bin/
 sudo chown miroshnichenko_an /usr/local/bin/terraform
 terraform -v
 ``` 
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform-01/screenshots/0.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform-01/screenshots/0.jpg)
 
 ### Инструменты и дополнительные материалы, которые пригодятся для выполнения задания
 
@@ -52,15 +52,15 @@ personal.auto.tfvars
 ```
 3. Выполните код проекта. Найдите  в state-файле секретное содержимое созданного ресурса **random_password**, пришлите в качестве ответа конкретный ключ и его значение.
 #### Ответ:  "result": "A4OLPruh2OBU0qQ1"
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform/01/screenshots/1_3.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_3.jpg)
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_3_1.jpg)
 
 4. Раскомментируйте блок кода, примерно расположенный на строчках 29–42 файла **main.tf**.
 Выполните команду ```terraform validate```. Объясните, в чём заключаются намеренно допущенные ошибки. Исправьте их.
 #### Ответ:  Все блоки resource должны иметь 2 labels (type, name). Имя должно начинаться с буквы или символа подчеркивания и может содержать только буквы, цифры, символы подчеркивания и тире. В строке "name  = "example_${random_password.random_string_FAKE.resulT}" убрал "_FAKE" и исправил "result"
 
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform/01/screenshots/1_4.jpg)
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform/01/screenshots/1_4_0.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_4.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_4_0.jpg)
 
 5. Выполните код. В качестве ответа приложите: исправленный фрагмент кода и вывод команды ```docker ps```.
 ```
@@ -79,7 +79,7 @@ resource "docker_container" "nginx" {
   }
 }
 ```
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform/01/screenshots/1_5.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_5.jpg)
 
 6. Замените имя docker-контейнера в блоке кода на ```hello_world```. Не перепутайте имя контейнера и имя образа. Мы всё ещё продолжаем использовать name = "nginx:latest". Выполните команду ```terraform apply -auto-approve```.
 Объясните своими словами, в чём может быть опасность применения ключа  ```-auto-approve```. Догадайтесь или нагуглите зачем может пригодиться данный ключ? В качестве ответа дополнительно приложите вывод команды ```docker ps```.
@@ -94,13 +94,13 @@ resource "docker_container" "nginx" {
     external = 9090
   }
 ```
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform/01/screenshots/1_6.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_6.jpg)
 
 7. Уничтожьте созданные ресурсы с помощью **terraform**. Убедитесь, что все ресурсы удалены. Приложите содержимое файла **terraform.tfstate**. 
 ```
 terraform destroy
 ```
-![image](https://github.com/anmiroshnichenko/shdevops/blob/shvirtd/terraform/01/screenshots/1_7.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/1_7.jpg)
 
 8. Объясните, почему при этом не был удалён docker-образ **nginx:latest**. Ответ **ОБЯЗАТЕЛЬНО НАЙДИТЕ В ПРЕДОСТАВЛЕННОМ КОДЕ**, а затем **ОБЯЗАТЕЛЬНО ПОДКРЕПИТЕ** строчкой из документации [**terraform провайдера docker**](https://docs.comcloud.xyz/providers/kreuzwerker/docker/latest/docs).  (ищите в классификаторе resource docker_image )
 #### Ответ: docker-образ **nginx:latest**  не был удален, потому что в схеме ресурса  указан параметр **keep_locally = true** .  Если удалить этот параметр или установить значение **false**  при дестрои  образ  будет удален. Строка из докементации: ""keep_locally (Boolean) If true, then the Docker image won't be deleted on destroy operation. If this is false, it will delete the image from the docker local storage on destroy operation.""
@@ -187,7 +187,6 @@ docker exec -it mysql mysql -uroot -pQaAlaR7fZ04bN0Yc
 2. Попробуйте выполнить тот же код с помощью ```tofu apply```, а не terraform apply.
 ------
 ```
-
 #Installing tooling
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
@@ -210,6 +209,7 @@ sudo apt-get update
 sudo apt-get install -y tofu
 ```
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/3_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/3_2.jpg)
 
 ### Правила приёма работы
 
