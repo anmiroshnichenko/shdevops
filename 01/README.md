@@ -161,7 +161,7 @@ resource "docker_container" "mysql" {
      "MYSQL_PASSWORD=${random_password.mysql_password.result}",
      "MYSQL_USER=${var.mysql_user}",
      "MYSQL_DATABASE=${var.mysql_database}",
-     "MYSQL_ROOT_HOST=%"
+     "MYSQL_ROOT_HOST=%"git 
   ]
   volumes {
     container_path = "/var/lib/mysql"
@@ -180,6 +180,7 @@ docker exec -it mysql bash
 env
 mysql -uroot -pQaAlaR7fZ04bN0Yc
 docker exec -it mysql mysql -uroot -pQaAlaR7fZ04bN0Yc
+```
 
 ### Задание 3*
 1. Установите [opentofu](https://opentofu.org/)(fork terraform с лицензией Mozilla Public License, version 2.0) любой версии
