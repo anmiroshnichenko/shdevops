@@ -193,7 +193,7 @@ docker exec -it mysql mysql -uroot -p1UomClPwDHo6PdPK
 1. Установите [opentofu](https://opentofu.org/)(fork terraform с лицензией Mozilla Public License, version 2.0) любой версии
 2. Попробуйте выполнить тот же код с помощью ```tofu apply```, а не terraform apply.
 ------
-#### Ответ: Доступ [ссылка](https://habr.com/ru/companies/flant/news/839442/) к registry.opentofu.org закрыт с российских IP-адресов.  VPN  не помог.  Возможно каким-то спообом выполнить это задание?  
+#### Ответ: Доступ [ссылка](https://habr.com/ru/companies/flant/news/839442/) к registry.opentofu.org закрыт с российских IP-адресов.  VPN  не помог.  
 
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/3_1.jpg)
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/3_2.jpg)
