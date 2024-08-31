@@ -24,7 +24,7 @@ sudo cp terraform /usr/local/bin/
 sudo chown miroshnichenko_an /usr/local/bin/terraform
 terraform -v
 ``` 
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform-01/screenshots/0.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/0.jpg)
 
 ### Инструменты и дополнительные материалы, которые пригодятся для выполнения задания
 
