@@ -83,7 +83,7 @@ resource "docker_container" "nginx" {
 
 6. Замените имя docker-контейнера в блоке кода на ```hello_world```. Не перепутайте имя контейнера и имя образа. Мы всё ещё продолжаем использовать name = "nginx:latest". Выполните команду ```terraform apply -auto-approve```.
 Объясните своими словами, в чём может быть опасность применения ключа  ```-auto-approve```. Догадайтесь или нагуглите зачем может пригодиться данный ключ? В качестве ответа дополнительно приложите вывод команды ```docker ps```.
-#### Ответ: Опасность заключается в нежелательном приминении изменений к инфораструктуре без предварительного изучения плана, т.к  ключ  -auto-approve пропускает интерактивное утверждение. Данный ключ может буть полезен с скриптах, CI/CD пайплайна.  
+#### Ответ: Опасность заключается в нежелательном приминении изменений к инфраструктуре без предварительного изучения плана, т.к  ключ  -auto-approve пропускает интерактивное утверждение. Данный ключ может буть полезен с скриптах, CI/CD пайплайна.  
 ```
 resource "docker_container" "nginx" {
   image = docker_image.nginx-stable.image_id
@@ -195,28 +195,6 @@ docker exec -it mysql mysql -uroot -p1UomClPwDHo6PdPK
 ------
 #### Ответ: Доступ [ссылка](https://habr.com/ru/companies/flant/news/839442/) к registry.opentofu.org закрыт с российских IP-адресов.  VPN  не помог.  Возможно каким-то спообом выполнить это задание?  
 
-```
-#Installing tooling
-sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
-
-#Set up the OpenTofu repository
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://get.opentofu.org/opentofu.gpg | sudo tee /etc/apt/keyrings/opentofu.gpg >/dev/null
-curl -fsSL https://packages.opentofu.org/opentofu/tofu/gpgkey | sudo gpg --no-tty --batch --dearmor -o /etc/apt/keyrings/opentofu-repo.gpg >/dev/null
-sudo chmod a+r /etc/apt/keyrings/opentofu.gpg /etc/apt/keyrings/opentofu-repo.gpg
-
-#Create the OpenTofu source list.
-echo \
-  "deb [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main
-deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-repo.gpg] https://packages.opentofu.org/opentofu/tofu/any/ any main" | \
-  sudo tee /etc/apt/sources.list.d/opentofu.list > /dev/null
-sudo chmod a+r /etc/apt/sources.list.d/opentofu.list
-
-#Installing OpenTofu
-sudo apt-get update
-sudo apt-get install -y tofu
-```
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/3_1.jpg)
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/01/screenshots/3_2.jpg)
 
