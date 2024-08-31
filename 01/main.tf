@@ -31,9 +31,9 @@ resource "docker_image" "nginx-stable" {
 
 resource "docker_container" "nginx" {
   image = docker_image.nginx-stable.image_id
-  # name  = "example_${random_password.random_string.result}"
+  name  = "example_${random_password.random_string.result}"
   # name  = "hello_world" 
-  name = "${var.container_name}"
+  # docker psname = "${var.container_name}"
 
   ports {
     internal = 80
@@ -47,18 +47,31 @@ resource "docker_image" "mysql" {
 }
 
 resource "random_password" "mysql_root_password" {
-  length = 16
+  length      = 16
+  special     = false
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
 }
+
+resource "random_password" "mysql_password" {
+  length      = 16
+  special     = false
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
+}
+
 
 resource "docker_container" "mysql" {
   name  = "mysql"
   image = docker_image.mysql.image_id
   restart = "always"
   env = [
-     "MYSQL_ROOT_PASSWORD=${random_password.random_string.result}",
-     "MYSQL_PASSWORD=wordpress",
-     "MYSQL_USER=wordpress",
-     "MYSQL_DATABASE=wordpress"
+     "MYSQL_ROOT_PASSWORD=${random_password.mysql_root_password.result}",
+     "MYSQL_PASSWORD=${random_password.mysql_password.result}",
+     "MYSQL_USER=${var.mysql_user}",
+     "MYSQL_DATABASE=${var.mysql_database}"
   ]
   volumes {
     container_path = "/var/lib/mysql"
@@ -70,19 +83,10 @@ resource "docker_container" "mysql" {
     ip = "127.0.0.1"    
   }
 }
-#   #   MYSQL_DATABASE = "virtd"
-#   #   # MYSQL_DATABASE = "${MYSQL_DATABASE}"
-#   #   # MYSQL_USER = "${MYSQL_USER}"
-#   #   # MYSQL_PASSWORD = "${MYSQL_PASSWORD}"
-#   #   MYSQL_ROOT_HOST = "%" 
-#   # } 
-  
+
 
 #   # mounts {
 #   #   source = "/some/host/mysql/data/path"
 #   #   target = "/var/lib/mysql/data"
 #   #   type = "bind"
 #   # }
-  
-  
-# }

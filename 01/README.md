@@ -131,15 +131,55 @@ provider "docker" {
 4. Используя terraform и  remote docker context, скачайте и запустите на вашей ВМ контейнер ```mysql:8``` на порту ```127.0.0.1:3306```, передайте ENV-переменные. Сгенерируйте разные пароли через random_password и передайте их в контейнер, используя интерполяцию из примера с nginx.(```name  = "example_${random_password.random_string.result}"```  , двойные кавычки и фигурные скобки обязательны!) 
 
 ```
-    environment:
-      - "MYSQL_ROOT_PASSWORD=${...}"
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress
-      - "MYSQL_PASSWORD=${...}"
-      - MYSQL_ROOT_HOST="%"
-```
+resource "docker_image" "mysql" {
+  name = "mysql:8"
+  keep_locally = true
+}
 
+resource "random_password" "mysql_root_password" {
+  length      = 16
+  special     = false
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
+}
+
+resource "random_password" "mysql_password" {
+  length      = 16
+  special     = false
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
+}
+
+resource "docker_container" "mysql" {
+  name  = "mysql"
+  image = docker_image.mysql.image_id
+  restart = "always"
+  env = [
+     "MYSQL_ROOT_PASSWORD=${random_password.mysql_root_password.result}",
+     "MYSQL_PASSWORD=${random_password.mysql_password.result}",
+     "MYSQL_USER=${var.mysql_user}",
+     "MYSQL_DATABASE=${var.mysql_database}",
+     "MYSQL_ROOT_HOST=%"
+  ]
+  volumes {
+    container_path = "/var/lib/mysql"
+    host_path = "/tmp/db_data"
+  }  
+  ports {
+    external = 3306
+    internal = 3306
+    ip = "127.0.0.1"    
+  }
+}
+```
 6. Зайдите на вашу ВМ , подключитесь к контейнеру и проверьте наличие секретных env-переменных с помощью команды ```env```. Запишите ваш финальный код в репозиторий.
+```
+docker exec -it mysql bash
+env
+mysql -uroot -pQaAlaR7fZ04bN0Yc
+docker exec -it mysql mysql -uroot -pQaAlaR7fZ04bN0Yc
 
 ### Задание 3*
 1. Установите [opentofu](https://opentofu.org/)(fork terraform с лицензией Mozilla Public License, version 2.0) любой версии
