@@ -1,15 +1,17 @@
-output "external_platform-web" {
-value = yandex_compute_instance.platform.network_interface[0].nat_ip_address
+
+
+output "platform-web" {
+value = [
+    yandex_compute_instance.platform.name, 
+    yandex_compute_instance.platform.network_interface[0].nat_ip_address,
+    yandex_compute_instance.platform.fqdn
+ ]     
 }
 
-output "internal_platform-web" {
-value = yandex_compute_instance.platform.network_interface[0].ip_address
-}
-
-output "external_platform-db" {
-value = yandex_compute_instance.platform-db.network_interface[0].nat_ip_address
-}
-
-output "internal_platform-db" {
-value = yandex_compute_instance.platform-db.network_interface[0].ip_address
+output "platform-db" {
+value = [
+    yandex_compute_instance.platform-db.name, 
+    yandex_compute_instance.platform-db.network_interface[0].nat_ip_address,
+    yandex_compute_instance.platform-db.fqdn
+]
 }
