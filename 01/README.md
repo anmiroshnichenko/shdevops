@@ -16,8 +16,8 @@
 ------
 
 ```
-wget https://hashicorp-releases.yandexcloud.net/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip
-unzip  terraform_1.9.5_linux_amd64.zip
+wget https://hashicorp-releases.yandexcloud.net/terraform/1.8.4/terraform_1.8.4_linux_amd64.zip
+unzip  terraform_1.8.4_linux_amd64
 file terraform
 chmod 766 terraform
 sudo cp terraform /usr/local/bin/
