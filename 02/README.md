@@ -191,6 +191,7 @@ resource "yandex_compute_instance" "platform-db" {
 
 В качестве решения приложите вывод значений ip-адресов команды ```terraform output```.
 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/4_1.jpg)
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/4.jpg)
 
 ### Задание 5
@@ -198,7 +199,52 @@ resource "yandex_compute_instance" "platform-db" {
 1. В файле locals.tf опишите в **одном** local-блоке имя каждой ВМ, используйте интерполяцию ${..} с НЕСКОЛЬКИМИ переменными по примеру из лекции.
 2. Замените переменные внутри ресурса ВМ на созданные вами local-переменные.
 3. Примените изменения.
+#### Объявил переменные в файле vms_platform.tf
+```
+# variables for virtual machine names  
+ variable "environment" {
+  type        = string
+  default     = "develop"  
+  description = "Environment for virtual machine names"
+}
 
+variable "project" {
+  type        = string
+  default     = "devops"  
+  description = "Project for virtual machine"
+}
+
+variable "role_1" {
+  type        = string
+  default     = "web"  
+  description = "Role for virtual machine"
+}
+
+variable "role_2" {
+  type        = string
+  default     = "db"  
+  description = "Role for virtual machine"
+}
+```
+#### В файле locals.tf создал local-блок
+```
+locals {
+    name_web = "netology-${ var.environment }-${ var.project }-${ var.role_1 }"
+    name_db = "netology-${ var.environment }-${ var.project }-${ var.role_2 }"
+}
+
+```
+#### Заменил переменные внутри ресурса ВМ
+```
+# VM_1_netology-develop-platform-web
+resource "yandex_compute_instance" "platform" {  
+  name = local.name_web  
+
+# VM_2_netology-develop-platform-db
+resource "yandex_compute_instance" "platform-db" {  
+  name = local.name_db 
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/5.jpg)
 
 ### Задание 6
 
@@ -224,6 +270,40 @@ resource "yandex_compute_instance" "platform-db" {
      }
    }
    ```
+#### Объявил переменные в файле vms_platform.tf
+   ```
+   #single map variable for virtual machine resources
+variable "vms_resources" {
+  type        = map(map(number))
+  description = "All resources for virtual machine"
+}
+```
+#### В файле terraform.tfvars написал значения 
+```
+vms_resources = {
+     web ={
+       cores = 2
+       memory = 1
+       core_fraction = 5        
+     },
+     db = {
+       cores = 2
+       memory = 2
+       core_fraction = 20        
+     }
+   }
+```
+#### Заменил переменные  для  ресурсов ВМ
+```
+resources {    
+    cores         = var.vms_resources["db"]["cores"]
+    memory        = var.vms_resources["db"]["memory"]
+    core_fraction = var.vms_resources["db"]["core_fraction"]
+  }
+
+```
+
+
 3. Создайте и используйте отдельную map(object) переменную для блока metadata, она должна быть общая для всех ваших ВМ.
    ```
    пример из terraform.tfvars:
@@ -232,10 +312,33 @@ resource "yandex_compute_instance" "platform-db" {
      ssh-keys           = "ubuntu:ssh-ed25519 AAAAC..."
    }
    ```  
-  
+
+#### Объявил переменные в файле variables.tf
+```
+variable "metadata" {
+  type        =map(any)  
+  description = "metadata block variables for all VMs"
+}
+```
+#### В файле terraform.tfvars задал  значения 
+```
+metadata = {
+     serial-port-enable = 1
+     ssh-keys = "ubuntu:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCpEVTvLfMVp0ZydLogg5s1D8WzKQaY2n0MqDsBNX2YkoaHP1vHs0Aqg5"
+   }
+```
+#### Заменил переменные в файле main.tf  для  resource "yandex_compute_instance" 
+```
+metadata = {
+    serial-port-enable = var.metadata["serial-port-enable"]
+    ssh-keys           = var.metadata["ssh-keys"]
+  }
+```
+
 5. Найдите и закоментируйте все, более не используемые переменные проекта.
 6. Проверьте terraform plan. Изменений быть не должно.
 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/6.jpg)
 ------
 
 ## Дополнительное задание (со звёздочкой*)

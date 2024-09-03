@@ -10,4 +10,4 @@
 
 # own secret vars store.
 personal.auto.tfvars
-*.tfvars
+#*.tfvars
