@@ -66,6 +66,10 @@ variable "vm_web_image_family" {
 }
 
 variable "metadata" {
-  type        =map(any)  
+  type        = map(any)  
   description = "metadata block variables for all VMs"
+}
+
+variable "test" {
+   type        = list(map(list(string)))
 }

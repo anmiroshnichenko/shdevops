@@ -6,6 +6,7 @@ resource "yandex_vpc_subnet" "develop" {
   zone           = var.default_zone
   network_id     = yandex_vpc_network.develop.id
   v4_cidr_blocks = var.default_cidr
+  route_table_id = yandex_vpc_route_table.rt.id
 }
 
 resource "yandex_vpc_subnet" "develop_1" {
@@ -13,6 +14,7 @@ resource "yandex_vpc_subnet" "develop_1" {
   zone           = var.zone
   network_id     = yandex_vpc_network.develop.id
   v4_cidr_blocks = var.cidr
+  route_table_id = yandex_vpc_route_table.rt.id
 }
 
 

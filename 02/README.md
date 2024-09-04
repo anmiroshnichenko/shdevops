@@ -353,14 +353,35 @@ metadata = {
 Изучите содержимое файла console.tf. Откройте terraform console, выполните следующие задания: 
 
 1. Напишите, какой командой можно отобразить **второй** элемент списка test_list.
+```
+> local.test_list
+[
+  "develop",
+  "staging",
+  "production",
+]
+```
 2. Найдите длину списка test_list с помощью функции length(<имя переменной>).
+```
+> length(local.test_list)
+3
+```
 3. Напишите, какой командой можно отобразить значение ключа admin из map test_map.
+```
+> local.test_map["admin"]
+"John"
+```
 4. Напишите interpolation-выражение, результатом которого будет: "John is admin for production server based on OS ubuntu-20-04 with X vcpu, Y ram and Z virtual disks", используйте данные из переменных test_list, test_map, servers и функцию length() для подстановки значений.
 
 **Примечание**: если не догадаетесь как вычленить слово "admin", погуглите: "terraform get keys of map"
 
 В качестве решения предоставьте необходимые команды и их вывод.
-
+```
+> "${local.test_map["admin"]} is ${[for k,v in local.test_map  : k if v == "John"][0]} for ${local.test_list[2]} server based on OS ${local.servers.production["image"]} with ${local.servers.production["cpu"]} vcpu, ${local.servers.production["ram"]} ram and ${length(local.servers.production["disks"])} virtual disks" 
+"John is admin for production server based on OS ubuntu-20-04 with 10 vcpu, 40 ram and 4 virtual disks"
+>  
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/7.jpg)
 ------
 
 ### Задание 8*
@@ -387,14 +408,98 @@ test = [
   },
 ]
 ```
-2. Напишите выражение в terraform console, которое позволит вычленить строку "ssh -o 'StrictHostKeyChecking=no' ubuntu@62.84.124.117" из этой переменной.
-------
+#### Переменая test
+```
+variable "test" {
+   type        = list(map(list(string)))
+}
+```
+#### Проверка переменной  test в консоле 
+```
+> var.test
+tolist([
+  tomap({
+    "dev1" = tolist([
+      "ssh -o 'StrictHostKeyChecking=no' ubuntu@62.84.124.117",
+      "10.0.1.7",
+    ])
+  }),
+  tomap({
+    "dev2" = tolist([
+      "ssh -o 'StrictHostKeyChecking=no' ubuntu@84.252.140.88",
+      "10.0.2.29",
+    ])
+  }),
+  tomap({
+    "prod1" = tolist([
+      "ssh -o 'StrictHostKeyChecking=no' ubuntu@51.250.2.101",
+      "10.0.1.30",
+    ])
+  }),
+])
+>  
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/8.jpg)
 
+2. Напишите выражение в terraform console, которое позволит вычленить строку "ssh -o 'StrictHostKeyChecking=no' ubuntu@62.84.124.117" из этой переменной.
+```
+> var.test[0]["dev1"][0]
+"ssh -o 'StrictHostKeyChecking=no' ubuntu@62.84.124.117"  
+```
 ------
 
 ### Задание 9*
 
 Используя инструкцию https://cloud.yandex.ru/ru/docs/vpc/operations/create-nat-gateway#tf_1, настройте для ваших ВМ nat_gateway. Для проверки уберите внешний IP адрес (nat=false) у ваших ВМ и проверьте доступ в интернет с ВМ, подключившись к ней через serial console. Для подключения предварительно через ssh измените пароль пользователя: ```sudo passwd ubuntu```
+####  Изменил пароль  для пользователя ubuntu 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9_2.jpg)
+
+####  Изменил nat=false в файле terraform.tfvars, создал ресурс  в файле nat_gateway.tf,  в resource "yandex_vpc_subnet" указал таблицу маршрутизации   и применил изменения
+```
+vm_db_network_interface_nat = false
+vm_web_network_interface_nat = false
+```
+```
+resource "yandex_vpc_gateway" "nat_gateway" {
+#   folder_id      = "<идентификатор_каталога>"
+  name = "test-gateway"
+  shared_egress_gateway {}
+}
+
+resource "yandex_vpc_route_table" "rt" {
+  name       = "test-route-table"
+  network_id = yandex_vpc_network.develop.id
+
+  static_route {
+    destination_prefix = "0.0.0.0/0"
+    gateway_id         = yandex_vpc_gateway.nat_gateway.id
+  }
+}
+```
+```
+resource "yandex_vpc_subnet" "develop" {
+  name           = var.vpc_name
+  zone           = var.default_zone
+  network_id     = yandex_vpc_network.develop.id
+  v4_cidr_blocks = var.default_cidr
+  route_table_id = yandex_vpc_route_table.rt.id
+}
+
+resource "yandex_vpc_subnet" "develop_1" {
+  name           = var.vpc_1_name
+  zone           = var.zone
+  network_id     = yandex_vpc_network.develop.id
+  v4_cidr_blocks = var.cidr
+  route_table_id = yandex_vpc_route_table.rt.id
+}
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9_3.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9_4.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9_5.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/9_6.jpg)
+
 
 ### Правила приёма работыДля подключения предварительно через ssh измените пароль пользователя: sudo passwd ubuntu
 В качестве результата прикрепите ссылку на MD файл с описанием выполненой работы в вашем репозитории. Так же в репозитории должен присутсвовать ваш финальный код проекта.
