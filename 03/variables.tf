@@ -61,12 +61,22 @@ variable "vms_resources" {
   description = "All resources for virtual machine"
 }
 
-variable "metadata" {
-  type        = map(any)  
-  description = "metadata block variables for all VMs"
-}
+# variable "metadata" {
+#   type        = map(any)  
+#   description = "metadata block variables for all VMs"
+# }
 
 variable "vm_count" {
   type = number
   default = 1
 }
+
+variable "each_vm" {
+  type = list(object({ vm_name=string, cpu=number, ram=number, disk_volume=number, preemptible=bool }))
+  default = [ {
+    vm_name = "main", cpu = 4, ram = 2, disk_volume = 8, preemptible = false   
+  },
+  { vm_name = "replica", cpu = 2, ram = 1, disk_volume = 5, preemptible = true
+  } ]
+}
+

@@ -1,23 +1,23 @@
-resource "yandex_compute_instance" "web" {
-  depends_on = [resource.yandex_compute_instance.db]  
-  count = var.vm_count
-  name = "web-${count.index+1}"  
-  platform_id = var.vm_platform_id  
-  
+resource "yandex_compute_instance" "db" {  
+  for_each = { for k, v in var.each_vm : k => v }
+  name  = each.value.vm_name  
+  platform_id = var.vm_platform_id   
+
   resources {    
-    cores         = var.vms_resources["web"]["cores"]
-    memory        = var.vms_resources["web"]["memory"]
+    cores         = each.value.cpu
+    memory        = each.value.ram
     core_fraction = var.vms_resources["web"]["core_fraction"]
   }  
   
   boot_disk {
     initialize_params {
       image_id = data.yandex_compute_image.ubuntu.image_id
+      size = each.value.disk_volume
     }
   }
   
   scheduling_policy {    
-    preemptible = var.vm_scheduling_policy_preemptible
+    preemptible = each.value.preemptible
   }
   
   network_interface {
@@ -27,7 +27,7 @@ resource "yandex_compute_instance" "web" {
   }
 
   metadata = {
-     serial-port-enable = local.serial-port-enable
+    serial-port-enable = local.serial-port-enable
     ssh-keys = local.ssh-keys
     # serial-port-enable = var.metadata["serial-port-enable"]
     # ssh-keys           = var.metadata["ssh-keys"]

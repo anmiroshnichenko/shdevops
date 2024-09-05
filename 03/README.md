@@ -30,8 +30,8 @@
 Примечание. Если у вас не активирован preview-доступ к функционалу «Группы безопасности» в Yandex Cloud, запросите доступ у поддержки облачного провайдера. Обычно его выдают в течение 24-х часов.
 
 Приложите скриншот входящих правил «Группы безопасности» в ЛК Yandex Cloud или скриншот отказа в предоставлении доступа к preview-версии.
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/1.jpg)
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/1_3.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/1_3.jpg)
 ------
 
 ### Задание 2
@@ -42,7 +42,7 @@
  resource "yandex_compute_instance" "web" {  
   count = var.vm_count
   name = "web-${count.index+1}"  
-  platform_id = var.vm_platform_id
+  platform_id = var.vm_platform_id }
   ...
   
   network_interface {
@@ -52,21 +52,79 @@
   }
   
   ```
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/2_1.jpg)
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/2_2.jpg)
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/02/screenshots/2_3.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/2_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/2_1_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/2_1_2.jpg)
 
 2. Создайте файл for_each-vm.tf. Опишите в нём создание двух ВМ для баз данных с именами "main" и "replica" **разных** по cpu/ram/disk_volume , используя мета-аргумент **for_each loop**. Используйте для обеих ВМ одну общую переменную типа:
 ```
 variable "each_vm" {
   type = list(object({  vm_name=string, cpu=number, ram=number, disk_volume=number }))
 }
-```  
-При желании внесите в переменную все возможные параметры.
-4. ВМ из пункта 2.1 должны создаваться после создания ВМ из пункта 2.2.
-5. Используйте функцию file в local-переменной для считывания ключа ~/.ssh/id_rsa.pub и его последующего использования в блоке metadata, взятому из ДЗ 2.
-6. Инициализируйте проект, выполните код.
+``` 
+#### Создал файл for_each-vm.tf
+```
+resource "yandex_compute_instance" "db" {  
+  for_each = { for k, v in var.each_vm : k => v }
+  name  = each.value.vm_name  
+  platform_id = var.vm_platform_id   
 
+  resources {    
+    cores         = each.value.cpu
+    memory        = each.value.ram
+    core_fraction = var.vms_resources["web"]["core_fraction"]
+  }  
+  
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu.image_id
+      size = each.value.disk_volume
+    }
+  }
+  
+  scheduling_policy {    
+    preemptible = each.value.preemptible
+  }
+}
+```
+#### Объявил переменную в файле variables.tf
+```
+variable "each_vm" {
+  type = list(object({ vm_name=string, cpu=number, ram=number, disk_volume=number, preemptible=bool }))
+  default = [ {
+    vm_name = "main", cpu = 4, ram = 2, disk_volume = 8, preemptible = false   
+  },
+  { vm_name = "replica", cpu = 2, ram = 1, disk_volume = 5, preemptible = true
+  } ]
+}
+```
+При желании внесите в переменную все возможные параметры.
+
+3. ВМ из пункта 2.1 должны создаваться после создания ВМ из пункта 2.2.
+#### Устанвоил аргумент depends_on 
+```
+resource "yandex_compute_instance" "web" {
+  depends_on = [resource.yandex_compute_instance.db]  
+  count = var.vm_count }
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/2_3.jpg)
+
+4. Используйте функцию file в local-переменной для считывания ключа ~/.ssh/id_rsa.pub и его последующего использования в блоке metadata, взятому из ДЗ 2.
+#### Создал local-переменную и добавил в блок metadata
+```
+locals {
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    serial-port-enable = 1
+}
+```
+```
+metadata = {
+    serial-port-enable = local.serial-port-enable
+    ssh-keys = local.ssh-keys
+    }
+``` 
+5. Инициализируйте проект, выполните код.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/2_5.jpg)
 ------
 
 ### Задание 3
