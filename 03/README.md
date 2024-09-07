@@ -101,7 +101,7 @@ variable "each_vm" {
 При желании внесите в переменную все возможные параметры.
 
 3. ВМ из пункта 2.1 должны создаваться после создания ВМ из пункта 2.2.
-#### Устанвоил аргумент depends_on 
+#### Установил аргумент depends_on 
 ```
 resource "yandex_compute_instance" "web" {
   depends_on = [resource.yandex_compute_instance.db]  
@@ -130,10 +130,42 @@ metadata = {
 ### Задание 3
 
 1. Создайте 3 одинаковых виртуальных диска размером 1 Гб с помощью ресурса yandex_compute_disk и мета-аргумента count в файле **disk_vm.tf** .
+```
+variable "disk_count" {
+  type = set(number)
+  default = [0, 1, 2]
+}
+```
+```
+resource "yandex_compute_disk" "storage_disk" {
+  count    = length(var.disk_count) 
+  name     = "storage-disk-${count.index+1}" 
+  size     = var.disk_size
+  type     = var.disk_type
+  zone     = var.default_zone 
+
+  labels = {
+    environment = var.environment
+  }
+}
+```
 2. Создайте в том же файле **одиночную**(использовать count или for_each запрещено из-за задания №4) ВМ c именем "storage"  . Используйте блок **dynamic secondary_disk{..}** и мета-аргумент for_each для подключения созданных вами дополнительных дисков.
+```
+resource "yandex_compute_instance" "storage" {  
+  name = "storage"  
+  platform_id = var.vm_platform_id   
+  
+  dynamic "secondary_disk" {    
+    for_each = var.disk_count
+    content {
+      disk_id = yandex_compute_disk.storage_disk[secondary_disk.value].id
+    }
+  }
+}
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/3_2.jpg)
 
 ------
-
 ### Задание 4
 
 1. В файле ansible.tf создайте inventory-файл для ansible.

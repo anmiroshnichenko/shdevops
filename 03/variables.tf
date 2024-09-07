@@ -19,6 +19,13 @@ variable "default_zone" {
   default     = "ru-central1-a"
   description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
 }
+
+variable "environment" {
+  type        = string
+  default     = "develop"  
+  description = "Environment for virtual machine names"
+}
+
 variable "default_cidr" {
   type        = list(string)
   default     = ["10.0.1.0/24"]
@@ -69,6 +76,21 @@ variable "vms_resources" {
 variable "vm_count" {
   type = number
   default = 1
+}
+
+variable "disk_count" {
+  type = set(number)
+  default = [0, 1, 2]
+}
+
+variable "disk_size" {
+  type = number
+  default = 1
+}
+
+variable "disk_type" {
+  type = string
+  default = "network-hdd"
 }
 
 variable "each_vm" {
