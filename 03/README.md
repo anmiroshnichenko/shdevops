@@ -211,9 +211,10 @@ replica ansible_host<внешний ip-адрес> fqdn=<полное домен
 storage ansible_host=<внешний ip-адрес> fqdn=<полное доменное имя виртуальной машины>
 ```
 Пример fqdn: ```web1.ru-central1.internal```(в случае указания переменной hostname(не путать с переменной name)); ```fhm8k1oojmm5lie8i22a.auto.internal```(в случае отсутвия перменной hostname - автоматическая генерация имени,  зона изменяется на auto). нужную вам переменную найдите в документации провайдера или terraform console.
+
 4. Выполните код. Приложите скриншот получившегося файла. 
 
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/3_2.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/4.jpg)
 
 Для общего зачёта создайте в вашем GitHub-репозитории новую ветку terraform-03. Закоммитьте в эту ветку свой финальный код проекта, пришлите ссылку на коммит.   
 **Удалите все созданные ресурсы**.
