@@ -173,6 +173,29 @@ resource "yandex_compute_instance" "storage" {
 Готовый код возьмите из демонстрации к лекции [**demonstration2**](https://github.com/netology-code/ter-homeworks/tree/main/03/demo).
 Передайте в него в качестве переменных группы виртуальных машин из задания 2.1, 2.2 и 3.2, т. е. 5 ВМ.
 2. Инвентарь должен содержать 3 группы и быть динамическим, т. е. обработать как группу из 2-х ВМ, так и 999 ВМ.
+```
+resource "local_file" "hosts_templatefile" {
+  content = templatefile("${path.module}/hosts.tftpl",
+  { webservers = yandex_compute_instance.web
+   databases = yandex_compute_instance.db
+   storage = yandex_compute_instance.storage   
+   } )
+  filename = "${abspath(path.module)}/hosts.ini"
+}
+```
+[webservers]
+%{~ for i in webservers ~}
+${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
+%{~ endfor ~}
+[databases]
+%{~ for i in databases ~}
+${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
+%{~ endfor ~}
+[storage]
+%{~ for i in storage ~}
+${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
+%{~ endfor ~}
+```
 3. Добавьте в инвентарь переменную  [**fqdn**](https://cloud.yandex.ru/docs/compute/concepts/network#hostname).
 ``` 
 [webservers]
@@ -189,9 +212,10 @@ storage ansible_host=<внешний ip-адрес> fqdn=<полное доме�
 Пример fqdn: ```web1.ru-central1.internal```(в случае указания переменной hostname(не путать с переменной name)); ```fhm8k1oojmm5lie8i22a.auto.internal```(в случае отсутвия перменной hostname - автоматическая генерация имени,  зона изменяется на auto). нужную вам переменную найдите в документации провайдера или terraform console.
 4. Выполните код. Приложите скриншот получившегося файла. 
 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/3_2.jpg)
+
 Для общего зачёта создайте в вашем GitHub-репозитории новую ветку terraform-03. Закоммитьте в эту ветку свой финальный код проекта, пришлите ссылку на коммит.   
 **Удалите все созданные ресурсы**.
-
 ------
 
 ## Дополнительные задания (со звездочкой*)

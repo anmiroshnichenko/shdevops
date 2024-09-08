@@ -78,6 +78,11 @@ variable "vm_count" {
   default = 1
 }
 
+variable "vm_storage_count" {
+  type = number
+  default = 1
+}
+
 variable "disk_count" {
   type = set(number)
   default = [0, 1, 2]
