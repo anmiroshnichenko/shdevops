@@ -183,6 +183,7 @@ resource "local_file" "hosts_templatefile" {
   filename = "${abspath(path.module)}/hosts.ini"
 }
 ```
+```
 [webservers]
 %{~ for i in webservers ~}
 ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
