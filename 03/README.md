@@ -245,6 +245,9 @@ storage ansible_host=<внешний ip-адрес> fqdn=<полное доме�
 ```
 Приложите скриншот вывода команды ```terrafrom output```.
 
+####  Написал два "output" 
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/03/screenshots/5.jpg)
+
 ------
 
 ### Задание 6* (необязательное)
