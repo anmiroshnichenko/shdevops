@@ -17,6 +17,7 @@ vms_resources = {
 # }
 
 vm_count   = 2
+# vm_network_interface_nat = false
 
 
 
