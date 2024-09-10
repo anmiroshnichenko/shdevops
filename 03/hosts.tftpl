@@ -18,7 +18,6 @@
   %{endif}
 %{~ endfor ~}
 
-
 [storage]
 
 %{~ for i in storage ~}
@@ -28,6 +27,3 @@
   ${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]} fqdn=${i["fqdn"]}
   %{endif}
 %{~ endfor ~}
-
-
-
