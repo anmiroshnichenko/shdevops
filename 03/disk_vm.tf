@@ -5,6 +5,10 @@ resource "yandex_compute_disk" "storage_disk" {
   type     = var.disk_type
   zone     = var.default_zone 
 
+  lifecycle {
+   prevent_destroy = true  #  защита от случайного удаления
+ }
+
   labels = {
     environment = var.environment
   }
@@ -13,7 +17,13 @@ resource "yandex_compute_disk" "storage_disk" {
 resource "yandex_compute_instance" "storage" {  
   name = "storage"  
   platform_id = var.vm_platform_id 
-  # count = var.vm_storage_count
+    # count = var.vm_storage_count
+  
+  lifecycle {
+    create_before_destroy = true # сначала создает новый ресурс,потом уничтожает (default false) 
+    # ignore_changes        = [tags]
+  }
+
   
   resources {    
     cores         = var.vms_resources["web"]["cores"]
