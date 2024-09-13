@@ -156,9 +156,11 @@ resource "yandex_compute_instance" "storage" {
   platform_id = var.vm_platform_id   
   
   dynamic "secondary_disk" {    
-    for_each = var.disk_count
+    for_each = yandex_compute_disk.storage_disk
+    # for_each = var.disk_count
     content {
-      disk_id = yandex_compute_disk.storage_disk[secondary_disk.value].id
+      disk_id = secondary_disk.value["id"]
+      # disk_id = yandex_compute_disk.storage_disk[secondary_disk.value].id      
     }
   }
 }
@@ -193,7 +195,7 @@ ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
 ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
 %{~ endfor ~}
 [storage]
-%{~ for i in storage ~}
+%{~ for i in [storage] ~}
 ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}
 %{~ endfor ~}
 ```
@@ -295,6 +297,8 @@ storage ansible_host=<внешний ip-адрес> fqdn=<полное доме�
 }
 ```
 Предложите выражение в terraform console, которое удалит из данной переменной 3 элемент из: subnet_ids и subnet_zones.(значения могут быть любыми) Образец конечного результата:
+{for  k, v  in local.vpc : k =>  v }
+
 ```
 > <некое выражение>
 {

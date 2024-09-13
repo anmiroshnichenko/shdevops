@@ -13,7 +13,7 @@ resource "yandex_compute_disk" "storage_disk" {
 resource "yandex_compute_instance" "storage" {  
   name = "storage"  
   platform_id = var.vm_platform_id 
-  count = var.vm_storage_count
+  # count = var.vm_storage_count
   
   resources {    
     cores         = var.vms_resources["web"]["cores"]
@@ -28,9 +28,11 @@ resource "yandex_compute_instance" "storage" {
   }
 
   dynamic "secondary_disk" {    
-    for_each = var.disk_count
+    for_each = yandex_compute_disk.storage_disk
+    # for_each = var.disk_count
     content {
-      disk_id = yandex_compute_disk.storage_disk[secondary_disk.value].id      
+      disk_id = secondary_disk.value["id"]
+      # disk_id = yandex_compute_disk.storage_disk[secondary_disk.value].id      
     }
   }
   

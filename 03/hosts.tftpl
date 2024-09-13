@@ -20,7 +20,7 @@
 
 [storage]
 
-%{~ for i in storage ~}
+%{~ for i in [storage] ~}
 %{if length(i["network_interface"][0]["nat_ip_address"]) > 0}
   ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]} fqdn=${i["fqdn"]}
   %{else}
