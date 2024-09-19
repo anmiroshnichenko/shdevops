@@ -44,8 +44,33 @@ data "template_file" "cloudinit" {
 
 1. Напишите локальный модуль vpc, который будет создавать 2 ресурса: **одну** сеть и **одну** подсеть в зоне, объявленной при вызове модуля, например: ```ru-central1-a```.
 2. Вы должны передать в модуль переменные с названием сети, zone и v4_cidr_blocks.
+```
+module "vpc_dev" {
+  source       = "./vpc"
+  vpc_name     = "develop"
+  default_zone = "ru-central1-a"  
+  # zone         = "ru-central1-b"
+  default_cidr = ["10.0.1.0/24"]  
+  # cidr         = ["10.0.2.0/24"]
+}
+```
 3. Модуль должен возвращать в root module с помощью output информацию о yandex_vpc_subnet. Пришлите скриншот информации из terraform console о своем модуле. Пример: > module.vpc_dev  
+![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/04/screenshots/2_3.jpg)
+
 4. Замените ресурсы yandex_vpc_network и yandex_vpc_subnet созданным модулем. Не забудьте передать необходимые параметры сети из модуля vpc в модуль с виртуальной машиной.
+```
+module "example-vm" {
+  source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+  env_name       = "stage"
+  network_id     = module.vpc_dev.yandex_vpc_network
+  subnet_zones   = ["ru-central1-a"]
+  subnet_ids     = [module.vpc_dev.yandex_vpc_subnet]
+  instance_name  = "web-stage"
+  instance_count = 1
+  image_family   = "ubuntu-2004-lts"
+  public_ip      = true
+}
+```  
 5. Сгенерируйте документацию к модулю с помощью terraform-docs.
  
 Пример вызова
