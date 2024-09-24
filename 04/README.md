@@ -72,7 +72,11 @@ module "example-vm" {
 }
 ```  
 5. Сгенерируйте документацию к модулю с помощью terraform-docs.
- 
+```
+docker run --rm --volume "$(pwd):/terraform-docs" quay.io/terraform-docs/terraform-docs:0.16.0 markdown /terraform-docs
+``` 
+#### Документация в файле  ./vpc/README.MD
+
 Пример вызова
 
 ```
