@@ -14,15 +14,20 @@
 ansible -m ping localhost
 ansible-playbook -i inventory/test.yml site.yml 
 ```
-![image](https://github.com/anmiroshnichenko/shdevops/blob/terraform/04/screenshots/1_1.jpg)
+
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_1.jpg)
 
 2. Найдите файл с переменными (group_vars), в котором задаётся найденное в первом пункте значение, и поменяйте его на `all default fact`.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_2.jpg)
 3. Воспользуйтесь подготовленным (используется `docker`) или создайте собственное окружение для проведения дальнейших испытаний.
 4. Проведите запуск playbook на окружении из `prod.yml`. Зафиксируйте полученные значения `some_fact` для каждого из `managed host`.
 ```
 ansible-inventory -i inventory/prod.yml --graph
+ansible-inventory -i inventory/prod.yml --list
+ansible-inventory -i inventory/prod.yml --host ubuntu
 ansible-playbook  -i inventory/prod.yml  site.yml
 ```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_3.jpg)
 
 5. Добавьте факты в `group_vars` каждой из групп хостов так, чтобы для `some_fact` получились значения: для `deb` — `deb default fact`, для `el` — `el default fact`.
 6.  Повторите запуск playbook на окружении `prod.yml`. Убедитесь, что выдаются корректные значения для всех хостов.
