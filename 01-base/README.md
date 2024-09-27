@@ -27,15 +27,36 @@ ansible-inventory -i inventory/prod.yml --list
 ansible-inventory -i inventory/prod.yml --host ubuntu
 ansible-playbook  -i inventory/prod.yml  site.yml
 ```
-![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_3.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_4.jpg)
 
 5. Добавьте факты в `group_vars` каждой из групп хостов так, чтобы для `some_fact` получились значения: для `deb` — `deb default fact`, для `el` — `el default fact`.
 6.  Повторите запуск playbook на окружении `prod.yml`. Убедитесь, что выдаются корректные значения для всех хостов.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_6.jpg)
+
 7. При помощи `ansible-vault` зашифруйте факты в `group_vars/deb` и `group_vars/el` с паролем `netology`.
+```
+ansible-vault encrypt group_vars/deb/examp.yml group_vars/el/examp.yml
+ansible-vault decrypt group_vars/deb/examp.yml group_vars/el/examp.yml # расшифровать
+ansible-vault view  group_vars/deb/examp.yml # посмотреть без расшифровки  
+ansible-vault edit  group_vars/deb/examp.yml # отредактировать без расшифровки 
+ansible-vault encrypt_string  # зашифровать значение 
+
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_7.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_7_1.jpg)
+
 8. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь в работоспособности.
+```
+ansible-playbook  -i inventory/prod.yml  site.yml --ask-vault-pass
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_8.jpg)
+
 9. Посмотрите при помощи `ansible-doc` список плагинов для подключения. Выберите подходящий для работы на `control node`.
+
 10. В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.
 11. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь, что факты `some_fact` для каждого из хостов определены из верных `group_vars`.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_11.jpg)
+
 12. Заполните `README.md` ответами на вопросы. Сделайте `git push` в ветку `master`. В ответе отправьте ссылку на ваш открытый репозиторий с изменённым `playbook` и заполненным `README.md`.
 13. Предоставьте скриншоты результатов запуска команд.
 
