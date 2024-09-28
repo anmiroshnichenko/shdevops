@@ -81,7 +81,8 @@ ansible-playbook  -i inventory/prod.yml  site.yml --ask-vault-pass
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/2_3.jpg)
 
 4. Добавьте новую группу хостов `fedora`, самостоятельно придумайте для неё переменную. В качестве образа можно использовать [этот вариант](https://hub.docker.com/r/pycontribs/fedora).
-![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/2_3.jpg)
+
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/2_4.jpg)
 
 5. Напишите скрипт на bash: автоматизируйте поднятие необходимых контейнеров, запуск ansible-playbook и остановку контейнеров.
 ```
