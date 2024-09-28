@@ -102,5 +102,4 @@ docker stop pycontribs ubuntu centos7 && docker rm  pycontribs ubuntu centos7
 
 Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.
 
----
-https://github.com/netology-code/mnt-homeworks/tree/MNT-video?tab=readme-ov-file
+
