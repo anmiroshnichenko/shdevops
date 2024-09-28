@@ -43,7 +43,6 @@ ansible-vault encrypt_string  # зашифровать значение
 
 ```
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_7.jpg)
-![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_7_1.jpg)
 
 8. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь в работоспособности.
 ```
@@ -52,6 +51,11 @@ ansible-playbook  -i inventory/prod.yml  site.yml --ask-vault-pass
 ![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_8.jpg)
 
 9. Посмотрите при помощи `ansible-doc` список плагинов для подключения. Выберите подходящий для работы на `control node`.
+```
+ansible-doc --list  -t connection
+ansible-doc --list  -t connection community.docker
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/1_9.jpg)
 
 10. В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.
 11. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь, что факты `some_fact` для каждого из хостов определены из верных `group_vars`.
@@ -63,10 +67,32 @@ ansible-playbook  -i inventory/prod.yml  site.yml --ask-vault-pass
 ## Необязательная часть
 
 1. При помощи `ansible-vault` расшифруйте все зашифрованные файлы с переменными.
+```
+ansible-vault decrypt group_vars/deb/examp.yml group_vars/el/examp.yml
+ansible-vault encrypt_string
+```
 2. Зашифруйте отдельное значение `PaSSw0rd` для переменной `some_fact` паролем `netology`. Добавьте полученное значение в `group_vars/all/exmp.yml`.
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/2_2.jpg)
+
 3. Запустите `playbook`, убедитесь, что для нужных хостов применился новый `fact`.
+```
+ansible-playbook  -i inventory/prod.yml  site.yml --ask-vault-pass
+```
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/2_3.jpg)
+
 4. Добавьте новую группу хостов `fedora`, самостоятельно придумайте для неё переменную. В качестве образа можно использовать [этот вариант](https://hub.docker.com/r/pycontribs/fedora).
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/01-base/screenshots/2_3.jpg)
+
 5. Напишите скрипт на bash: автоматизируйте поднятие необходимых контейнеров, запуск ansible-playbook и остановку контейнеров.
+```
+#!/bin/bash
+docker build -t ubuntu .
+docker run -id  --name pycontribs   pycontribs/fedora
+docker run -id  --name ubuntu ubuntu
+docker run  -id  --name centos7 centos:centos7
+ansible-playbook  -i inventory/prod.yml  site.yml --ask-vault-pass
+docker stop pycontribs ubuntu centos7 && docker rm  pycontribs ubuntu centos7 
+```
 6. Все изменения должны быть зафиксированы и отправлены в ваш личный репозиторий.
 
 ---
