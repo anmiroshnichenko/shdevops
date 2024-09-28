@@ -10,4 +10,8 @@
   local:
     hosts:
       localhost: 
-        ansible_connection: local    
+        ansible_connection: local
+  fedora:
+    hosts:
+      pycontribs:
+        ansible_connection: docker    
