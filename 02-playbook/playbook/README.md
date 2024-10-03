@@ -2,11 +2,7 @@
 
 ## Первоначальная настройка 
 Заполните инвентарный файл **[inventory/prod.yml]**
-```YML
-
-      ansible_host: 89.169.141.232
-      # ansible_user: miroshnichenko_an
-      # ansible_ssh_private_key_file: /home/miroshnichenko_an/.ssh/id_rsa 
+```YML      
 ansible_host: <ip>
 ansible_ssh_user: <user>
 ansible_ssh_private_key_file: <path to file>
@@ -26,7 +22,6 @@ all_clickhouse_url: "http://locakhost:8123"
 ```
 
 ## Запуск Playbook
-
 #
     ansible-playbook site.yml -i inventory/prod.yml
 **Note**: После выполнения playbook Vector сразу начнет писать лог в БД
