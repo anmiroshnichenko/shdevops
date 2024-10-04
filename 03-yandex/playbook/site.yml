@@ -1,0 +1,100 @@
+---
+- name: Install Clickhouse
+  hosts: clickhouse
+  handlers:
+    - name: Start clickhouse service
+      become: true
+      ansible.builtin.service:
+        name: clickhouse-server
+        state: restarted
+  tasks:
+    - block:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
+            dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
+            dest: "./clickhouse-common-static-{{ clickhouse_version }}.rpm"
+    - name: Install clickhouse packages
+      become: true
+      ansible.builtin.yum:
+        name:
+          - clickhouse-common-static-{{ clickhouse_version }}.rpm
+          - clickhouse-client-{{ clickhouse_version }}.rpm
+          - clickhouse-server-{{ clickhouse_version }}.rpm
+      notify: Start clickhouse service
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
+    - name: pause for 30 seconds
+      pause:
+        seconds: 5
+    - name: Create database
+      ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc !=82
+      changed_when: create_db.rc == 0
+
+- name: Install vector
+  hosts: vector
+  handlers:
+    - name: Restart vector
+      become: true
+      ansible.builtin.service:
+        name: vector
+        state: restarted
+  tasks:
+    - name: Get vector distrib
+      ansible.builtin.get_url:
+        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+        dest: "./vector-{{ vector_version }}.rpm"
+    - name: Install vector packages
+      become: true
+      ansible.builtin.yum:
+        name:
+          - vector-{{ vector_version }}.rpm
+    - name: Template  config_file
+      become: true
+      ansible.builtin.template:
+        src:  ./templates/vector.yaml.j2
+        dest: /etc/vector/vector.yaml
+        mode: '0644'
+      notify:
+        - Restart vector    
+
+- name: Install LightHouse
+  hosts: lighthouse
+  handlers:
+    - name: Restart nginx
+      become: true
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+  tasks:
+    - name: Install the nginx rpm from a remote repo unzip
+      become: true
+      ansible.builtin.yum:        
+        name: 
+          - http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm  
+          - nginx
+          - unzip
+        state: present    
+
+    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      become: true
+      ansible.builtin.unarchive:
+        src: https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip
+        dest: /usr/share   #/usr/share/lighthouse-master/
+        remote_src: yes    
+
+    - name: Template  config_file
+      become: true
+      ansible.builtin.template:
+        src:  ./templates/default.conf.j2
+        dest: /etc/nginx/conf.d/default.conf
+        mode: '0644'
+      notify:
+        - Restart nginx        

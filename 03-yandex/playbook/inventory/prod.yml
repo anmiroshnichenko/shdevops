@@ -1,0 +1,21 @@
+---
+clickhouse:
+  hosts:
+    clickhouse-01:
+      ansible_host: 51.250.74.70
+      # ansible_user: miroshnichenko_an
+      # ansible_ssh_private_key_file: /home/miroshnichenko_an/.ssh/id_rsa 
+
+vector:
+  hosts:
+    vector-01:
+      ansible_host: 51.250.14.179
+      # ansible_user: miroshnichenko_an
+      # ansible_ssh_private_key_file: /home/miroshnichenko_an/.ssh/id_rsa
+
+lighthouse:
+  hosts:
+    lighthouse-01:
+      ansible_host: 51.250.93.44
+      # ansible_user: miroshnichenko_an
+      # ansible_ssh_private_key_file: /home/miroshnichenko_an/.ssh/id_rsa       
