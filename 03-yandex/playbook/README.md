@@ -1,4 +1,4 @@
-## Ansible Playbook для запуска Clickhouse + Vector на одном хосте
+## Ansible Playbook для запуска Clickhouse + Vector + lighthouse 
 
 ## Первоначальная настройка 
 Заполните инвентарный файл **[inventory/prod.yml]**

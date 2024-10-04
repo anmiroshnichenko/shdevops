@@ -12,19 +12,19 @@
 3. Tasks должны: скачать статику LightHouse, установить Nginx или любой другой веб-сервер, настроить его конфиг для открытия LightHouse, запустить веб-сервер.
 4. Подготовьте свой inventory-файл `prod.yml`.
 5. Запустите `ansible-lint site.yml` и исправьте ошибки, если они есть.
-![image](03-yandex/screenshots/5.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/03-yandex/screenshots/5.jpg)
 6. Попробуйте запустить playbook на этом окружении с флагом `--check`.
 
 7. Запустите playbook на `prod.yml` окружении с флагом `--diff`. Убедитесь, что изменения на системе произведены.
 ```
 ansible-playbook  -i ./inventory/prod.yml  site.yml  --diff
 ```
-![image]()
-![image]()
-![image]()
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/03-yandex/screenshots/7.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/03-yandex/screenshots/7_1.jpg)
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/03-yandex/screenshots/7_2.jpg)
 
 8. Повторно запустите playbook с флагом `--diff` и убедитесь, что playbook идемпотентен.
-![image]()
+![image](https://github.com/anmiroshnichenko/shdevops/blob/ansible/03-yandex/screenshots/8.jpg)
 9. Подготовьте README.md-файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
 10. Готовый playbook выложите в свой репозиторий, поставьте тег `08-ansible-03-yandex` на фиксирующий коммит, в ответ предоставьте ссылку на него.
 
