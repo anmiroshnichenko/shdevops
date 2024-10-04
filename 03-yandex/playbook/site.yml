@@ -63,7 +63,7 @@
         dest: /etc/vector/vector.yaml
         mode: '0644'
       notify:
-        - Restart vector    
+        - Restart vector
 
 - name: Install LightHouse
   hosts: lighthouse
@@ -74,21 +74,27 @@
         name: nginx
         state: restarted
   tasks:
-    - name: Install the nginx rpm from a remote repo unzip
+    - name: Install the nginx rpm from a remote repo 
       become: true
-      ansible.builtin.yum:        
-        name: 
-          - http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm  
+      ansible.builtin.yum:
+        name:
+          - http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm         
+        state: present
+    
+    - name: Install the nginx  unzip
+      become: true
+      ansible.builtin.yum:
+        name:          
           - nginx
           - unzip
-        state: present    
+        state: present
 
     - name: Unarchive a file that needs to be downloaded (added in 2.0)
       become: true
       ansible.builtin.unarchive:
         src: https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip
         dest: /usr/share   #/usr/share/lighthouse-master/
-        remote_src: yes    
+        remote_src: yes
 
     - name: Template  config_file
       become: true
@@ -97,4 +103,4 @@
         dest: /etc/nginx/conf.d/default.conf
         mode: '0644'
       notify:
-        - Restart nginx        
+        - Restart nginx
