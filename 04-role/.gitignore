@@ -1,0 +1,5 @@
+*.log
+clickhouse/
+lighthouse-role/
+vector-role/
+./playbook/roles/*
