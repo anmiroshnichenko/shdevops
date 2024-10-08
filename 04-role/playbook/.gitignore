@@ -1,1 +1,4 @@
-files/*
+*.log
+clickhouse/
+lighthouse-role/
+vector-role/
