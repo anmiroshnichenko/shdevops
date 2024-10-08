@@ -40,6 +40,7 @@
 11. В ответе дайте ссылки на оба репозитория с roles и одну ссылку на репозиторий с playbook.
 
 https://github.com/anmiroshnichenko/lighthouse-role
+
 https://github.com/anmiroshnichenko/vector-role
 
 ---
