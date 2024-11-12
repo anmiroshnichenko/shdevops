@@ -5,6 +5,15 @@
 1. Установите molecule и его драйвера: `pip3 install "molecule molecule_docker molecule_podman`.
 2. Выполните `docker pull aragast/netology:latest` —  это образ с podman, tox и несколькими пайтонами (3.7 и 3.9) внутри.
 
+```
+sudo apt install python3-pip
+pip3 install molecule molecule_docker molecule_podman
+molecule init role acme.clickhouse  --driver-name docker #инициировать новую роль со сценарием тестирования default с выбранным драйвером
+pip3 install ansible-lint yamllint 
+```
+![image](screenshots/0_1.jpg)
+![image](screenshots/0_2.jpg)
+
 ## Основная часть
 
 Ваша цель — настроить тестирование ваших ролей. 
@@ -17,6 +26,7 @@
 
 1. Запустите  `molecule test -s ubuntu_xenial` (или с любым другим сценарием, не имеет значения) внутри корневой директории clickhouse-role, посмотрите на вывод команды. Данная команда может отработать с ошибками или не отработать вовсе, это нормально. Наша цель - посмотреть как другие в реальном мире используют молекулу И из чего может состоять сценарий тестирования.
 2. Перейдите в каталог с ролью vector-role и создайте сценарий тестирования по умолчанию при помощи `molecule init scenario --driver-name docker`.
+![image](screenshots/1_2.jpg)
 3. Добавьте несколько разных дистрибутивов (oraclelinux:8, ubuntu:latest) для инстансов и протестируйте роль, исправьте найденные ошибки, если они есть.
 4. Добавьте несколько assert в verify.yml-файл для  проверки работоспособности vector-role (проверка, что конфиг валидный, проверка успешности запуска и др.). 
 5. Запустите тестирование роли повторно и проверьте, что оно прошло успешно.

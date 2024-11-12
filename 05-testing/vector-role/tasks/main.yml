@@ -1,0 +1,27 @@
+---
+# tasks file for vector-role
+- name: Get vector distrib
+  ansible.builtin.get_url:
+    url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+    dest: "./vector-{{ vector_version }}.rpm"
+
+- name: Install vector packages
+  become: true
+  ansible.builtin.yum:
+    name:
+      - vector-{{ vector_version }}.rpm
+
+- name: Template  config_file
+  become: true
+  ansible.builtin.template:
+    src:  ./templates/vector.yaml.j2
+    dest: /etc/vector/vector.yaml
+    mode: '0644'
+- name: pause for 30 seconds
+  pause:
+    seconds: 30  
+  notify:
+    - Restart vector
+...
+
+  

@@ -1,0 +1,3 @@
+---
+# vars file for vector-role
+vector_data_dir: "/etc/vector/"
